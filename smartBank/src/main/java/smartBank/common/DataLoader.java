@@ -5,6 +5,7 @@ import smartBank.auth.entity.User;
 import smartBank.auth.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Component;
 public class DataLoader implements CommandLineRunner {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public void run(String... args) {
@@ -21,7 +23,7 @@ public class DataLoader implements CommandLineRunner {
             User admin = User.builder()
                     .name("Admin")
                     .email("admin@smartbank.com")
-                    .password("admin123")
+                    .password(passwordEncoder.encode("admin123"))
                     .role(Role.ADMIN)
                     .enabled(true)
                     .build();
