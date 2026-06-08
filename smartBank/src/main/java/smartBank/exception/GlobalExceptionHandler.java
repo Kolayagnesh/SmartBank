@@ -4,6 +4,8 @@ import smartBank.auth.dto.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import smartBank.transaction.exception.InsufficientBalanceException;
+import smartBank.transaction.exception.InvalidTransferException;
 
 import java.time.LocalDateTime;
 
@@ -24,6 +26,20 @@ public class GlobalExceptionHandler {
                                 ex.getMessage()
                         )
                 );
+    }
+    @ExceptionHandler(InvalidTransferException.class)
+    public ResponseEntity<?> handleInvalidTransfer(
+            InvalidTransferException ex) {
+
+        return ResponseEntity.badRequest()
+                .body(ex.getMessage());
+    }
+    @ExceptionHandler(InsufficientBalanceException.class)
+    public ResponseEntity<?> handleInsufficientBalance(
+            InsufficientBalanceException ex) {
+
+        return ResponseEntity.badRequest()
+                .body(ex.getMessage());
     }
     @ExceptionHandler(EmailAlreadyExistsException.class)
     public ResponseEntity<ErrorResponse> handleEmailExists(
