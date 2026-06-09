@@ -34,12 +34,11 @@ public class SecurityConfig {
                                 SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                "/api/auth/login",
-                                "/api/users/register"
+                                "/api/auth/**"
                         ).permitAll()
-                        .requestMatchers(
-                                "/api/test/**"
-                        ).permitAll()
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/accounts/**").hasRole("CUSTOMER")
+                        .requestMatchers("/api/transactions/**").hasRole("CUSTOMER")
                         .anyRequest()
                         .authenticated()
                 )
