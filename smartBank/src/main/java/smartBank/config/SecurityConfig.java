@@ -28,6 +28,7 @@ public class SecurityConfig {
             HttpSecurity http) throws Exception {
 
         http
+                .cors(cors -> {})
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(
@@ -40,7 +41,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/accounts/**").hasRole("CUSTOMER")
                         .requestMatchers("/api/transactions/**").hasRole("CUSTOMER")
                         .requestMatchers("/api/statements/**").hasRole("CUSTOMER")
-                        .requestMatchers("/api/payments/**").permitAll()
+                        .requestMatchers("/api/payments/**").hasRole("CUSTOMER")
                         .anyRequest()
                         .authenticated()
                 )

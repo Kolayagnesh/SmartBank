@@ -8,6 +8,7 @@ import smartBank.account.exception.AccountAccessDeniedException;
 import smartBank.account.exception.AccountNotFoundException;
 import smartBank.account.repository.AccountRepository;
 import smartBank.auth.entity.User;
+import smartBank.exception.AccountAlreadyExistsException;
 import smartBank.exception.UserNotFoundException;
 import smartBank.auth.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -41,9 +42,10 @@ public class AccountServiceImpl implements AccountService {
                 request.getAccountType()
         )) {
 
-            throw new RuntimeException(
+            throw new AccountAlreadyExistsException(
                     request.getAccountType()
-                            + " account already exists");
+                            + " account already exists"
+            );
         }
         Account account = new Account();
 

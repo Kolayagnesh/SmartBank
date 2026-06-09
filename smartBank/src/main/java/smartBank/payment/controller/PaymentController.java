@@ -32,8 +32,11 @@ public class PaymentController {
             @RequestBody VerifyPaymentRequest request
     ) {
 
-        return paymentService.verifyAndCreateAccount(
-                request
+        System.out.println(
+                "VERIFY ENDPOINT HIT"
         );
+
+        return paymentService
+                .verifyAndCreateAccount(request);
     }
 }

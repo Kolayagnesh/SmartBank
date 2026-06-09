@@ -48,6 +48,14 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest()
                 .body(ex.getMessage());
     }
+    @ExceptionHandler(AccountAlreadyExistsException.class)
+    public ResponseEntity<?> handle(
+            AccountAlreadyExistsException ex
+    ) {
+        return ResponseEntity
+                .badRequest()
+                .body(ex.getMessage());
+    }
     @ExceptionHandler(InvalidTransferException.class)
     public ResponseEntity<?> handleInvalidTransfer(
             InvalidTransferException ex) {
