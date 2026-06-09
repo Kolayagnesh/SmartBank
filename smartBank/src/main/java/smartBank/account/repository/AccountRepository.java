@@ -1,6 +1,7 @@
 package smartBank.account.repository;
 
 import smartBank.account.entity.Account;
+import smartBank.account.entity.AccountType;
 import smartBank.auth.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -13,5 +14,8 @@ public interface AccountRepository
     List<Account> findByUser(User user);
 
     Optional<Account> findByAccountNumber(String accountNumber);
-
+    boolean existsByUserAndAccountType(
+            User user,
+            AccountType accountType
+    );
 }

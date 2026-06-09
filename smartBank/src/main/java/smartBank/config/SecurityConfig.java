@@ -39,6 +39,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/accounts/**").hasRole("CUSTOMER")
                         .requestMatchers("/api/transactions/**").hasRole("CUSTOMER")
+                        .requestMatchers("/api/statements/**").hasRole("CUSTOMER")
+                        .requestMatchers("/api/payments/**").permitAll()
                         .anyRequest()
                         .authenticated()
                 )

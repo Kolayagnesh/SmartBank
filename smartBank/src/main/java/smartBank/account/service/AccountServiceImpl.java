@@ -36,6 +36,15 @@ public class AccountServiceImpl implements AccountService {
 
         User user = getCurrentUser();
 
+        if (accountRepository.existsByUserAndAccountType(
+                user,
+                request.getAccountType()
+        )) {
+
+            throw new RuntimeException(
+                    request.getAccountType()
+                            + " account already exists");
+        }
         Account account = new Account();
 
         account.setAccountNumber(generateAccountNumber());

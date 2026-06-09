@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
+
 public class UserService {
     private final JwtService jwtService;
     private final UserRepository userRepository;
