@@ -27,6 +27,27 @@ public class GlobalExceptionHandler {
                         )
                 );
     }
+    @ExceptionHandler(InvalidOtpException.class)
+    public ResponseEntity<String> handleInvalidOtp(
+            InvalidOtpException ex) {
+
+        return ResponseEntity.badRequest()
+                .body(ex.getMessage());
+    }
+    @ExceptionHandler(OtpExpiredException.class)
+    public ResponseEntity<String> handleOtpExpired(
+            OtpExpiredException ex) {
+
+        return ResponseEntity.badRequest()
+                .body(ex.getMessage());
+    }
+    @ExceptionHandler(AccountNotVerifiedException.class)
+    public ResponseEntity<String> handleAccountNotVerified(
+            AccountNotVerifiedException ex) {
+
+        return ResponseEntity.badRequest()
+                .body(ex.getMessage());
+    }
     @ExceptionHandler(InvalidTransferException.class)
     public ResponseEntity<?> handleInvalidTransfer(
             InvalidTransferException ex) {

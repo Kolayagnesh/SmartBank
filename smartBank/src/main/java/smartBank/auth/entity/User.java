@@ -35,6 +35,9 @@ public class User {
 
     private LocalDateTime updatedAt;
 
+    private String otp;
+
+    private LocalDateTime otpExpiry;
     @PrePersist
     public void onCreate() {
         createdAt = LocalDateTime.now();

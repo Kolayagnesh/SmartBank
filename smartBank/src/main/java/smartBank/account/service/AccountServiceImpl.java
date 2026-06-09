@@ -2,6 +2,7 @@ package smartBank.account.service;
 
 import smartBank.account.dto.AccountResponse;
 import smartBank.account.dto.CreateAccountRequest;
+import smartBank.account.dto.DashBoardResponse;
 import smartBank.account.entity.Account;
 import smartBank.account.exception.AccountAccessDeniedException;
 import smartBank.account.exception.AccountNotFoundException;
@@ -13,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import smartBank.notification.service.EmailService;
+import smartBank.transaction.dto.TransactionResponse;
 import smartBank.transaction.entity.Transaction;
 import smartBank.transaction.entity.TransactionType;
 import smartBank.transaction.repository.TransactionRepository;
@@ -24,7 +27,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class AccountServiceImpl implements AccountService {
-
+    private final EmailService emailService;
     private final AccountRepository accountRepository;
     private final UserRepository userRepository;
     private final TransactionRepository transactionRepository;
@@ -60,6 +63,26 @@ public class AccountServiceImpl implements AccountService {
                 savedAccount);
 
         transactionRepository.save(transaction);
+        emailService.sendEmail(
+                user.getEmail(),
+                "SmartBank Account Created",
+                """
+                Welcome to SmartBank!
+        
+                Account Number: %s
+        
+                Account Type: %s
+        
+                Opening Balance: ₹%s
+        
+                Thank you for banking with us.
+                """
+                        .formatted(
+                                savedAccount.getAccountNumber(),
+                                savedAccount.getAccountType(),
+                                savedAccount.getBalance()
+                        )
+        );
         return mapToResponse(savedAccount);
     }
     private String generateTransactionReference() {
@@ -114,5 +137,63 @@ public class AccountServiceImpl implements AccountService {
         response.setAccountType(account.getAccountType());
 
         return response;
+    }
+    @Override
+    public DashBoardResponse getDashboard() {
+
+        User currentUser = getCurrentUser();
+
+        List<Account> accounts =
+                accountRepository.findByUser(currentUser);
+
+        BigDecimal totalBalance = accounts.stream()
+                .map(Account::getBalance)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        List<TransactionResponse> recentTransactions =
+                transactionRepository
+                        .findRecentTransactionsByUser(
+                                currentUser.getId())
+                        .stream()
+                        .limit(5)
+                        .map(this::mapToTransactionResponse)
+                        .toList();
+
+        return DashBoardResponse.builder()
+                .name(currentUser.getName())
+                .totalAccounts(accounts.size())
+                .totalBalance(totalBalance)
+                .recentTransactions(recentTransactions)
+                .build();
+    }
+    private TransactionResponse mapToTransactionResponse(
+            Transaction transaction) {
+
+        return TransactionResponse.builder()
+                .transactionReference(
+                        transaction.getTransactionReference())
+
+                .transactionType(
+                        transaction.getTransactionType())
+
+                .amount(
+                        transaction.getAmount())
+
+                .sourceAccountNumber(
+                        transaction.getSourceAccount() != null
+                                ? transaction.getSourceAccount()
+                                .getAccountNumber()
+                                : null)
+
+                .destinationAccountNumber(
+                        transaction.getDestinationAccount() != null
+                                ? transaction.getDestinationAccount()
+                                .getAccountNumber()
+                                : null)
+
+                .transactionTime(
+                        transaction.getTransactionTime())
+
+                .build();
     }
 }

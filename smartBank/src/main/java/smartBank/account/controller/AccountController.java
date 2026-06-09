@@ -2,6 +2,7 @@ package smartBank.account.controller;
 
 import smartBank.account.dto.AccountResponse;
 import smartBank.account.dto.CreateAccountRequest;
+import smartBank.account.dto.DashBoardResponse;
 import smartBank.account.service.AccountService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,12 @@ public class AccountController {
     public List<AccountResponse> getMyAccounts() {
 
         return accountService.getMyAccounts();
+    }
+    @GetMapping("/dashboard")
+    @PreAuthorize("hasRole('CUSTOMER')")
+    public DashBoardResponse getDashboard() {
+
+        return accountService.getDashboard();
     }
     @GetMapping("/my/{accountNumber}")
     @PreAuthorize("hasRole('CUSTOMER')")

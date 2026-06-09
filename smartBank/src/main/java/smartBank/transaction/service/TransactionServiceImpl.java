@@ -12,6 +12,7 @@ import smartBank.account.repository.AccountRepository;
 import smartBank.auth.entity.User;
 import smartBank.exception.UserNotFoundException;
 import smartBank.auth.repository.UserRepository;
+import smartBank.notification.service.EmailService;
 import smartBank.transaction.dto.TransactionResponse;
 import smartBank.transaction.dto.TransferRequest;
 import smartBank.transaction.dto.TransferResponse;
@@ -27,7 +28,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class TransactionServiceImpl implements TransactionService {
-
+    private final EmailService emailService;
     private final AccountRepository accountRepository;
     private final TransactionRepository transactionRepository;
     private final UserRepository userRepository;
@@ -114,7 +115,60 @@ public class TransactionServiceImpl implements TransactionService {
                 destinationAccount);
 
         transactionRepository.save(transaction);
+        try {
+            // Sender Email
+            emailService.sendEmail(
+                    currentUser.getEmail(),
+                    "Money Debited Successfully",
+                    """
+                    Dear %s,
+        
+                    ₹%s has been debited from your account.
+        
+                    Reference: %s
+        
+                    From Account: %s
+                    To Account: %s
+        
+                    Thank you for using SmartBank.
+                    """
+                            .formatted(
+                                    currentUser.getName(),
+                                    transaction.getAmount(),
+                                    transaction.getTransactionReference(),
+                                    sourceAccount.getAccountNumber(),
+                                    destinationAccount.getAccountNumber()
+                            )
+            );
 
+            // Receiver Email
+            emailService.sendEmail(
+                    destinationAccount.getUser().getEmail(),
+                    "Money Credited Successfully",
+                    """
+                    Dear %s,
+        
+                    ₹%s has been credited to your account.
+        
+                    Reference: %s
+        
+                    From Account: %s
+                    To Account: %s
+        
+                    Thank you for using SmartBank.
+                    """
+                            .formatted(
+                                    destinationAccount.getUser().getName(),
+                                    transaction.getAmount(),
+                                    transaction.getTransactionReference(),
+                                    sourceAccount.getAccountNumber(),
+                                    destinationAccount.getAccountNumber()
+                            )
+            );
+
+        } catch (Exception e) {
+            System.out.println("Failed to send email notification");
+        }
         return TransferResponse.builder()
                 .transactionReference(
                         transaction.getTransactionReference())
