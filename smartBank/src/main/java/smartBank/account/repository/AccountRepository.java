@@ -18,4 +18,5 @@ public interface AccountRepository
             User user,
             AccountType accountType
     );
+
 }

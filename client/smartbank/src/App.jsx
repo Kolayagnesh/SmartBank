@@ -19,6 +19,7 @@ import Transfer from './pages/customer/Transfer'
 import Transactions from './pages/customer/Transactions'
 import Statements from './pages/customer/Statements'
 import Profile from './pages/customer/Profile'
+import AiAnalysis from './pages/customer/AiAnalysis'
 
 // Admin pages
 import AdminDashboard from './pages/admin/AdminDashboard'
@@ -50,6 +51,7 @@ export default function App() {
         <Route path="/transfer" element={<CustomerLayout><Transfer /></CustomerLayout>} />
         <Route path="/transactions/:accountNumber" element={<CustomerLayout><Transactions /></CustomerLayout>} />
         <Route path="/statements" element={<CustomerLayout><Statements /></CustomerLayout>} />
+        <Route path="/ai-analysis" element={<CustomerLayout><AiAnalysis /></CustomerLayout>} />
         <Route path="/profile" element={<CustomerLayout><Profile /></CustomerLayout>} />
 
         {/* Admin routes */}

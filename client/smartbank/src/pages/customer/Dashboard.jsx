@@ -125,7 +125,14 @@ export default function Dashboard() {
         {data?.recentTransactions?.length === 0 ? (
           <EmptyState message="No transactions yet. Make your first transfer!" />
         ) : (
-          <div className="space-y-1">
+          <div className="space-y-4">
+            <div className="hidden md:grid grid-cols-5 gap-4 px-6 text-[11px] uppercase tracking-widest text-slate-400 font-semibold">
+              <span>Type</span>
+              <span>Transaction No</span>
+              <span>Amount</span>
+              <span>From / To</span>
+              <span>Time</span>
+            </div>
             {data?.recentTransactions?.map((txn) => (
               <TransactionRow key={txn.transactionReference} txn={txn} />
             ))}
@@ -137,26 +144,60 @@ export default function Dashboard() {
 }
 
 function TransactionRow({ txn }) {
-  const isCredit = txn.transactionType === 'DEPOSIT'
+  const isCredit = isIncomingTransaction(txn)
   return (
-    <div className="table-row flex items-center gap-4 py-3.5 px-1">
-      <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 
-                      ${isCredit ? 'bg-emerald-50 text-emerald-600' : 'bg-red-50 text-red-500'}`}>
-        {isCredit ? <ArrowDownLeft size={16} /> : <ArrowUpRight size={16} />}
-      </div>
-      <div className="flex-1 min-w-0">
-        <p className="text-sm font-semibold text-slate-700 font-display truncate">
-          {txn.transactionType}
-        </p>
-        <p className="text-xs text-slate-400 font-mono truncate">{txn.transactionReference}</p>
-      </div>
-      <div className="text-right">
-        <p className={`text-sm font-bold font-display ${isCredit ? 'text-emerald-600' : 'text-red-500'}`}>
-          {isCredit ? '+' : '-'}{formatCurrency(txn.amount)}
-        </p>
-        <p className="text-xs text-slate-400">{formatDateTime(txn.transactionTime)}</p>
+    <div className={`table-row w-full max-w-full overflow-hidden rounded-2xl border-l-4 ${isCredit ? 'border-l-emerald-500 bg-emerald-50/35' : 'border-l-red-500 bg-red-50/35'} border border-slate-100 px-6 py-5 md:px-8 md:py-6 shadow-sm`}>
+      <div className="grid grid-cols-1 gap-5 md:grid-cols-5 md:gap-4 md:items-center">
+        <div className="flex items-center gap-3 min-w-0">
+          <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${isCredit ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-600'}`}>
+            {isCredit ? <ArrowDownLeft size={16} /> : <ArrowUpRight size={16} />}
+          </div>
+          <div className="min-w-0">
+            <p className="text-xs md:text-sm font-semibold text-slate-700 font-display break-words leading-snug">{txn.transactionType}</p>
+          </div>
+        </div>
+
+        <div className="min-w-0">
+          <p className="text-xs md:text-sm font-mono text-slate-600 break-all leading-snug">{txn.transactionReference}</p>
+        </div>
+
+        <div className="min-w-0">
+          <p className={`text-sm font-bold font-display ${isCredit ? 'text-emerald-600' : 'text-red-500'}`}>
+            {isCredit ? '+' : '-'}{formatCurrency(txn.amount)}
+          </p>
+        </div>
+
+        <div className="min-w-0">
+          <p className="text-xs md:text-sm font-semibold text-slate-700 font-mono break-all leading-snug">{isCredit ? `From: ${txn.sourceAccountNumber ?? '—'}` : `To: ${txn.destinationAccountNumber ?? '—'}`}</p>
+        </div>
+
+        <div className="min-w-0">
+          <p className="text-sm text-slate-600">{formatDateTime(txn.transactionTime)}</p>
+        </div>
       </div>
     </div>
+  )
+}
+
+function isIncomingTransaction(txn) {
+  const type = (txn.transactionType || '').toUpperCase()
+  const amount = Number(txn.amount)
+
+  if (['CREDIT', 'DEPOSIT', 'INCOMING', 'RECEIVED'].some((word) => type.includes(word))) {
+    return true
+  }
+
+  if (['DEBIT', 'WITHDRAW', 'OUTGOING', 'SENT', 'PAYMENT'].some((word) => type.includes(word))) {
+    return false
+  }
+
+  if (Number.isFinite(amount) && amount !== 0) {
+    return amount > 0
+  }
+
+  return (
+    type.includes('TRANSFER IN') ||
+    type.includes('TRANSFER CREDIT')
   )
 }
 

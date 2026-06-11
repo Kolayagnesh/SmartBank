@@ -199,11 +199,11 @@ rzp.open()
         {/* Opening balance */}
         <div>
           <label className="label-text">Opening Balance</label>
-          <div className="relative">
-            <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 font-semibold">₹</span>
+          <div className="flex items-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 focus-within:ring-2 focus-within:ring-amber-400 focus-within:border-transparent transition-all duration-200">
+            <span className="text-slate-400 font-semibold shrink-0">₹</span>
             <input
               type="number"
-              className="input-field pl-8"
+              className="w-full bg-transparent border-0 p-0 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-0 font-body text-sm"
               placeholder="1000"
               value={form.openingBalance}
               onChange={(e) => setForm({ ...form, openingBalance: Number(e.target.value) })}

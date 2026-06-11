@@ -82,11 +82,11 @@ export default function Statements() {
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label className="label-text">From Date</label>
-            <div className="relative">
-              <Calendar size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+            <div className="flex items-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 focus-within:ring-2 focus-within:ring-amber-400 focus-within:border-transparent transition-all duration-200">
+              <Calendar size={15} className="text-slate-400 shrink-0" />
               <input
                 type="date"
-                className="input-field pl-10"
+                className="w-full bg-transparent border-0 p-0 text-slate-800 focus:outline-none focus:ring-0 font-body text-sm"
                 value={form.from}
                 max={today}
                 onChange={(e) => setForm({ ...form, from: e.target.value })}
@@ -96,11 +96,11 @@ export default function Statements() {
           </div>
           <div>
             <label className="label-text">To Date</label>
-            <div className="relative">
-              <Calendar size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+            <div className="flex items-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 focus-within:ring-2 focus-within:ring-amber-400 focus-within:border-transparent transition-all duration-200">
+              <Calendar size={15} className="text-slate-400 shrink-0" />
               <input
                 type="date"
-                className="input-field pl-10"
+                className="w-full bg-transparent border-0 p-0 text-slate-800 focus:outline-none focus:ring-0 font-body text-sm"
                 value={form.to}
                 max={today}
                 onChange={(e) => setForm({ ...form, to: e.target.value })}

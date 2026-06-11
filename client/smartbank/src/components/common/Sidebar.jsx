@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import {
   LayoutDashboard, CreditCard, ArrowLeftRight, FileText,
-  User, LogOut, Menu, X, ChevronRight, Landmark
+  User, LogOut, Menu, X, ChevronRight, Landmark, Sparkles
 } from 'lucide-react'
 import toast from 'react-hot-toast'
 
@@ -12,6 +12,7 @@ const navLinks = [
   { to: '/accounts', icon: CreditCard, label: 'Accounts' },
   { to: '/transfer', icon: ArrowLeftRight, label: 'Transfer' },
   { to: '/statements', icon: FileText, label: 'Statements' },
+  { to: '/ai-analysis', icon: Sparkles, label: 'AI Analysis' },
   { to: '/profile', icon: User, label: 'Profile' },
 ]
 

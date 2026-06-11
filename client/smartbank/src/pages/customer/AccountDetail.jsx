@@ -113,26 +113,47 @@ export default function AccountDetail() {
         {transactions.length === 0 ? (
           <p className="text-center text-slate-400 py-10 text-sm">No transactions for this account yet.</p>
         ) : (
-          <div className="space-y-1">
+          <div className="space-y-4">
+            <div className="hidden md:grid grid-cols-5 gap-4 px-6 text-[11px] uppercase tracking-widest text-slate-400 font-semibold">
+              <span>Type</span>
+              <span>Transaction No</span>
+              <span>Amount</span>
+              <span>From / To</span>
+              <span>Time</span>
+            </div>
             {transactions.map((txn) => {
               const isIncoming = txn.destinationAccountNumber === accountNumber
               return (
-                <div key={txn.transactionReference} className="table-row flex items-center gap-4 py-3.5 px-1">
-                  <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0
-                                  ${isIncoming ? 'bg-emerald-50 text-emerald-600' : 'bg-red-50 text-red-500'}`}>
-                    {isIncoming ? <ArrowDownLeft size={15} /> : <ArrowUpRight size={15} />}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-semibold text-slate-700 font-display">{txn.transactionType}</p>
-                    <p className="text-xs text-slate-400 font-mono truncate">
-                      {isIncoming ? `From: ${txn.sourceAccountNumber}` : `To: ${txn.destinationAccountNumber}`}
-                    </p>
-                  </div>
-                  <div className="text-right">
-                    <p className={`text-sm font-bold font-display ${isIncoming ? 'text-emerald-600' : 'text-red-500'}`}>
-                      {isIncoming ? '+' : '-'}{formatCurrency(txn.amount)}
-                    </p>
-                    <p className="text-xs text-slate-400">{formatDateTime(txn.transactionTime)}</p>
+                <div key={txn.transactionReference} className="table-row w-full max-w-full overflow-hidden rounded-2xl border border-slate-100 bg-white px-6 py-5 md:px-8 md:py-6 shadow-sm">
+                  <div className="grid grid-cols-1 gap-5 md:grid-cols-5 md:gap-4 md:items-center">
+                    <div className="flex items-center gap-3 min-w-0">
+                      <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${isIncoming ? 'bg-emerald-50 text-emerald-600' : 'bg-red-50 text-red-500'}`}>
+                        {isIncoming ? <ArrowDownLeft size={15} /> : <ArrowUpRight size={15} />}
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-xs md:text-sm font-semibold text-slate-700 font-display break-words leading-snug">{txn.transactionType}</p>
+                      </div>
+                    </div>
+
+                    <div className="min-w-0">
+                      <p className="text-xs md:text-sm font-mono text-slate-600 break-all leading-snug">{txn.transactionReference}</p>
+                    </div>
+
+                    <div className="min-w-0">
+                      <p className={`text-sm font-bold font-display ${isIncoming ? 'text-emerald-600' : 'text-red-500'}`}>
+                        {isIncoming ? '+' : '-'}{formatCurrency(txn.amount)}
+                      </p>
+                    </div>
+
+                    <div className="min-w-0">
+                      <p className="text-xs md:text-sm font-semibold text-slate-700 font-mono break-all leading-snug">
+                        {isIncoming ? `From: ${txn.sourceAccountNumber}` : `To: ${txn.destinationAccountNumber}`}
+                      </p>
+                    </div>
+
+                    <div className="min-w-0">
+                      <p className="text-sm text-slate-600">{formatDateTime(txn.transactionTime)}</p>
+                    </div>
                   </div>
                 </div>
               )

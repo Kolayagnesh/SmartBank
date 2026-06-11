@@ -45,6 +45,11 @@ export const accountAPI = {
   getAccount: (accountNumber) => api.get(`/accounts/my/${accountNumber}`),
 }
 
+// AI
+export const aiAPI = {
+  getAccountAnalysis: () => api.get('/ai/account-analysis'),
+}
+
 // Payments
 export const paymentAPI = {
   createOrder: (data) => api.post('/payments/create-order', data),

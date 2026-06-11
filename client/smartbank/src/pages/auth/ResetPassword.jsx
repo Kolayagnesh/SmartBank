@@ -51,7 +51,7 @@ export default function ResetPassword() {
       <form onSubmit={handleSubmit} className="space-y-5">
         <div>
           <label className="label-text">6-digit OTP</label>
-          <div className="flex gap-2 mt-1">
+          <div className="grid grid-cols-6 gap-2 mt-1 max-w-sm mx-auto">
             {otp.map((digit, i) => (
               <input
                 key={i}
@@ -62,7 +62,7 @@ export default function ResetPassword() {
                 value={digit}
                 onChange={(e) => handleOtpChange(i, e.target.value)}
                 onKeyDown={(e) => handleKeyDown(i, e)}
-                className="flex-1 h-11 text-center text-lg font-bold font-display
+                className="w-full h-11 text-center text-lg font-bold font-display
                            border-2 border-slate-200 rounded-xl bg-white text-slate-800
                            focus:outline-none focus:border-amber-400 transition-all"
               />
@@ -73,10 +73,10 @@ export default function ResetPassword() {
         <div>
           <label className="label-text">New password</label>
           <div className="relative">
-            <Lock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+            <Lock size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
             <input
               type={showPw ? 'text' : 'password'}
-              className="input-field pl-10 pr-10"
+              className="input-field pl-12 pr-12"
               placeholder="Min. 6 characters"
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
@@ -86,7 +86,7 @@ export default function ResetPassword() {
             <button
               type="button"
               onClick={() => setShowPw(!showPw)}
-              className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
             >
               {showPw ? <EyeOff size={16} /> : <Eye size={16} />}
             </button>

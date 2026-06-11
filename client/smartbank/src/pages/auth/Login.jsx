@@ -34,11 +34,11 @@ export default function Login() {
       <form onSubmit={handleSubmit} className="space-y-5">
         <div>
           <label className="label-text">Email address</label>
-          <div className="relative">
-            <Mail size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+          <div className="flex items-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 focus-within:ring-2 focus-within:ring-amber-400 focus-within:border-transparent transition-all duration-200">
+            <Mail size={16} className="text-slate-400 shrink-0" />
             <input
               type="email"
-              className="input-field pl-10"
+              className="w-full bg-transparent border-0 p-0 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-0 font-body text-sm"
               placeholder="you@example.com"
               value={form.email}
               onChange={(e) => setForm({ ...form, email: e.target.value })}
@@ -54,11 +54,11 @@ export default function Login() {
               Forgot password?
             </Link>
           </div>
-          <div className="relative">
-            <Lock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+          <div className="flex items-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 focus-within:ring-2 focus-within:ring-amber-400 focus-within:border-transparent transition-all duration-200">
+            <Lock size={16} className="text-slate-400 shrink-0" />
             <input
               type={showPw ? 'text' : 'password'}
-              className="input-field pl-10 pr-10"
+              className="w-full bg-transparent border-0 p-0 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-0 font-body text-sm"
               placeholder="Enter your password"
               value={form.password}
               onChange={(e) => setForm({ ...form, password: e.target.value })}
@@ -67,7 +67,7 @@ export default function Login() {
             <button
               type="button"
               onClick={() => setShowPw(!showPw)}
-              className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+              className="text-slate-400 hover:text-slate-600 shrink-0"
             >
               {showPw ? <EyeOff size={16} /> : <Eye size={16} />}
             </button>

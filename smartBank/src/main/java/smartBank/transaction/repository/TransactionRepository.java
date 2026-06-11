@@ -38,7 +38,7 @@ public interface TransactionRepository
             @Param("start") LocalDateTime start,
             @Param("end") LocalDateTime end
     );
-
+    List<Transaction> findBySourceAccountIn(List<Account> accounts);
     List<Transaction> findByDestinationAccount(Account account);
     @Query("""
             SELECT t

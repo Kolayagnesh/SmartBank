@@ -35,10 +35,10 @@ export default function Register() {
         <div>
           <label className="label-text">Full name</label>
           <div className="relative">
-            <User size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+            <User size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
             <input
               type="text"
-              className="input-field pl-10"
+              className="input-field pl-12"
               placeholder="John Doe"
               value={form.name}
               onChange={(e) => setForm({ ...form, name: e.target.value })}
@@ -50,10 +50,10 @@ export default function Register() {
         <div>
           <label className="label-text">Email address</label>
           <div className="relative">
-            <Mail size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+            <Mail size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
             <input
               type="email"
-              className="input-field pl-10"
+              className="input-field pl-12"
               placeholder="you@example.com"
               value={form.email}
               onChange={(e) => setForm({ ...form, email: e.target.value })}
@@ -65,10 +65,10 @@ export default function Register() {
         <div>
           <label className="label-text">Password</label>
           <div className="relative">
-            <Lock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+            <Lock size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
             <input
               type={showPw ? 'text' : 'password'}
-              className="input-field pl-10 pr-10"
+              className="input-field pl-12 pr-12"
               placeholder="Min. 6 characters"
               value={form.password}
               onChange={(e) => setForm({ ...form, password: e.target.value })}
@@ -78,7 +78,7 @@ export default function Register() {
             <button
               type="button"
               onClick={() => setShowPw(!showPw)}
-              className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
             >
               {showPw ? <EyeOff size={16} /> : <Eye size={16} />}
             </button>
